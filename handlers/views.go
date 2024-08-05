@@ -517,12 +517,12 @@ func (s Server) guestUploadGet() http.HandlerFunc {
 			return t.Format(time.RFC3339)
 		}}
 
-	t := parseTemplatesWithFuncs(
+	t := parseBarebonesTemplatesWithFuncs(
 		fns,
 		"templates/custom-elements/expiration-picker.html",
 		"templates/custom-elements/upload-link-box.html",
 		"templates/custom-elements/upload-links.html",
-		"templates/pages/upload.html")
+		"templates/pages/guest-upload.html")
 
 	tInactive := parseTemplates("templates/pages/guest-link-inactive.html")
 
@@ -686,6 +686,21 @@ func parseTemplatesWithFuncs(fns template.FuncMap, templatePaths ...string) *tem
 				append(
 					[]string{
 						"templates/layouts/base.html",
+						"templates/partials/navbar.html",
+						"templates/custom-elements/snackbar-notifications.html",
+					},
+					templatePaths...)...))
+}
+
+func parseBarebonesTemplatesWithFuncs(fns template.FuncMap, templatePaths ...string) *template.Template {
+	return template.Must(
+		template.New("barebone-base.html").
+			Funcs(fns).
+			ParseFS(
+				templatesFS,
+				append(
+					[]string{
+						"templates/layouts/barebone-base.html",
 						"templates/partials/navbar.html",
 						"templates/custom-elements/snackbar-notifications.html",
 					},

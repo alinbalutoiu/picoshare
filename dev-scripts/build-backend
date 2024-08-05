@@ -12,7 +12,7 @@ else
   MODE="$1"
 fi
 
-PLATFORM="${TARGETPLATFORM:-linux/amd64}"
+PLATFORM="${TARGETPLATFORM:-linux/arm64}"
 
 # Exit on unset variable.
 set -u
@@ -57,11 +57,8 @@ done
 BUILD_TAGS_JOINED="${BUILD_TAGS_JOINED# }"
 readonly BUILD_TAGS_JOINED
 
-# cgo is required for mattn/go-sqlite3.
-export CGO_ENABLED=1
-
-go build \
+CGO_ENABLED=1 go build \
   -tags "${BUILD_TAGS_JOINED}" \
-  -ldflags "-w -extldflags '-static' -X 'github.com/mtlynch/picoshare/v2/build.Version=${PS_VERSION}' -X 'github.com/mtlynch/picoshare/v2/build.unixTime=$(date +%s)'" \
+  -ldflags "-w -extldflags '-static'" \
   -o "${BINARY}" \
   cmd/picoshare/main.go

@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+    _ "modernc.org/sqlite"
 
 	"github.com/mtlynch/picoshare/v2/picoshare"
 )
@@ -35,7 +35,7 @@ func New(path string, optimizeForLitestream bool) Store {
 // chunk size for writing files. Most callers should just use New().
 func NewWithChunkSize(path string, chunkSize int, optimizeForLitestream bool) Store {
 	log.Printf("reading DB from %s", path)
-	ctx, err := sql.Open("sqlite3", path)
+	ctx, err := sql.Open("sqlite", path)
 	if err != nil {
 		log.Fatalln(err)
 	}
